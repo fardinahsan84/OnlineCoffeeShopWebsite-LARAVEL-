@@ -49,7 +49,7 @@
 					<li><a href="/manager/allDeliveryMan">Delivery man</a></li>
 					<li><a href="/manager/newArrival">New Arrival</a></li>
 					<li><a href="/manager/newArrival">Reviews</a></li>
-					<li><a href="/manager/newArrival">Balance sheet</a></li>
+					<li><a href="{{route('manager.report')}}">Balance sheet</a></li>
 					<li><a href="{{route('logout.index')}}">Logout</a><li>
 				</ul>
 <div class="p-3 mb-2 bg-primary text-white">

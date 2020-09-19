@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Manager home page</title>
+	<title>All Delivery man </title>
   <style>
     table.center {
           margin-left: auto;
@@ -59,36 +59,31 @@
 <form method="post">
   <input type="hidden" name="_token" value="{{csrf_token()}}">
     <center>
-      <h1>All Coffee items</h1>
+      <h1>All Delivery man items</h1>
       <h2>Manager: {{ Session::get('username')}}</h2>
     </center>
-     <h3><a href="{{route('manager.index')}} class="btn btn-secondary btn-xs"">Back</a></h3>
+     <h3><a href="{{route('manager.index')}}" class="btn btn-secondary btn-xs" >Back</a></h3>
 
-      @foreach($foodList as $food)
+      @foreach($DList as $dman)
        <fieldset>
         <table class="center">
-        <legend><h4>{{$food['name']}}</h4></legend>
+        <legend><h4>{{$dman['name']}}</h4></legend>
       <tr>
-        <th>ID</th><td>:{{$food['id']}}</td><td></td>
+        <th>ID</th><td>:{{$dman['id']}}</td><td></td>
       </tr>
       <tr>
-        <th>NAME</th><td>:{{$food['name']}}</td><td><a href="/manager/editFood/{{$food['id']}}" class="btn btn-secondary btn-xs"> Edit </a></td>
+        <th>NAME</th><td>:{{$dman['name']}}</td>
       </tr>
       <tr>
-        <th>Price/item</th><td>:{{$food['price']}}</td><td><a href="/manager/deleteFood/{{$food['id']}}" class="btn btn-secondary btn-xs">Delete</a></td>
+        <th>Phone</th><td>:{{$dman['phone']}}</td>
       </tr
       <tr>
-        <th>Suggested</th><td>:{{$food['suggested']}}</td><td><a href="/manager/suggestFood/{{$food['id']}}" class="btn btn-secondary btn-xs">Suggest</a></td>
+        <th>Address</th><td>:{{$dman['address']}}</td>
       <tr>
-        <th>Status</th><td>:{{$food['status']}}</td><td><a href="/manager/statusFood/{{$food['id']}}" class="btn btn-secondary btn-xs">Change Status</a></td>
+        <th>Email</th><td>:{{$dman['email']}}</td>
       </tr>
-        <th>Ingredients</th><td>:{{$food['ingredients']}}</td><td><a href="/manager/ingredients/{{$food['id']}}" class="btn btn-secondary btn-xs">Edit Ingredients</a></td>
+        <th>Gender</th><td>:{{$dman['gender']}}</td>
       </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td><h3><a href="/manager/reviews/{{$food['id']}}" class="btn btn-secondary">Reviews</a></h3></td>
-    </tr>
       </table>
       </fieldset>
       @endforeach

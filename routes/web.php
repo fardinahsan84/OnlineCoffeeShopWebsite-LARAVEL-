@@ -28,19 +28,34 @@ Route::middleware(['ses'])->group(function(){
 
           Route::get('/manager/editProfile/{id}', 'ManagerController@editProfile')->name('manager.editProfile');
           Route::post('/manager/editProfile/{id}', 'ManagerController@updateProfile');
-
+          //food
           Route::get('/manager/add', 'ManagerController@add')->name('manager.add');
           Route::post('/manager/add', 'ManagerController@insert');
 
           Route::get('/manager/allFood', 'ManagerController@allFood')->name('manager.allFood');
 
+          Route::get('/manager/editFood/{id}', 'ManagerController@editFood')->name('manager.editFood');
+          Route::post('/manager/editFood/{id}', 'ManagerController@updateFood');
+
+          Route::get('/manager/deleteFood/{id}', 'ManagerController@deleteFood')->name('manager.deleteFood');
+          Route::post('/manager/deleteFood/{id}', 'ManagerController@destroyFood');
+
+          Route::get('/manager/suggestFood/{id}', 'ManagerController@suggestFood')->name('manager.suggestFood');
+          Route::post('/manager/suggestFood/{id}', 'ManagerController@suggested');
+
+          Route::get('/manager/statusFood/{id}', 'ManagerController@statusFood')->name('manager.statusFood');
+          Route::post('/manager/statusFood/{id}', 'ManagerController@status');
+
+          Route::get('/manager/ingredients/{id}', 'ManagerController@ingredientsFood')->name('manager.statusFood');
+          Route::post('/manager/ingredients/{id}', 'ManagerController@ingredients');
+
           Route::get('/manager/allDeliveryMan', 'ManagerController@allDeliveryMan')->name('manager.allDeliveryMan');
 
-          Route::get('/manager/newArrival', 'ManagerController@edit')->name('manager.newArrival');
+          Route::get('/manager/newArrival', 'ManagerController@newArrival')->name('manager.newArrival');
 
-          Route::get('/manager/balanceSheet', 'ManagerController@edit')->name('manager.report');
+          Route::get('/manager/reviews/{id}', 'ManagerController@reviews')->name('manager.reviews');
 
-          Route::get('/manager/delete/{id}', 'ManagerController@delete');
-          Route::post('/manager/delete/{id}', 'ManagerController@destroy');
+          Route::get('/manager/balanceSheet', 'ManagerController@report')->name('manager.report');
+
     });
 });

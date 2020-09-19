@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\AddProductRequest;
+use App\Http\Requests\editProductRequest;
+
 
 use App\User;
 use App\Foods;
@@ -27,17 +29,15 @@ class ManagerController extends Controller
       $food = Foods::all();
       //$user = User::all();
       //$users = $this->getStudentList();
-        //$user = DB::table('users')->find();
+      //$user = DB::table('users')->find();
         return view('mhome.allFood')->with('foodList', $food);
     }
-
 
     //Edit Manager Profile
     function editProfile($id){
         $user = User::where('id',$id)->first();
         return view('manager.edit')->with('manager', $user);
     }
-
     function updateProfile($id, Request $req){
 
       if($req->hasFile('uploaded_image')){
@@ -64,7 +64,6 @@ class ManagerController extends Controller
         return view('mhome.add');
 
     }
-
     function insert(AddProductRequest $req){
 
           $food 			  = new Foods;
@@ -82,93 +81,132 @@ class ManagerController extends Controller
 
     }
 
-    function edit($id){
-
-    	$users = $this->getStudentList();
-
-    	//find one student by ID from array
-      for ($i=0; $i < count($users) ; $i++) {
-        // code...
-        if($users[$i]['id']==$id){
-          $user = $users[$i];
-          return view('mhome.edit')->with('user', $user);
-        }
-        else{
-          continue;
-        }
-      }
-    }
-
-    function update($id, Request $request){
-
-    	$newUser = ['id'=>$id, 'name'=>$request->name,'email'=>$request->email, 'password'=>$request->password];
-
-    	$users = $this->getStudentList();
-    	//find one student by ID from array $& replace it's value
-		//updated list
-    for ($i=0; $i < count($users) ; $i++) {
-      // code...
-      if($users[$i]['id']==$id){
-        //$user = $users[$i];
-        $users[$i]=$newUser;
-        //print_r($newUser);
-        //print_r($users);
-        //return view('home.index')->with('users', $users);
-        break;
-      }
-      else{
-        continue;
-      }
-    }
-
-    	return view('mhome.index')->with('users', $users);
-
-    }
-
-
-
-
-    function delete($id){
-
-    	$users = $this->getStudentList();
-    	//show comfirm view
-      for ($i=0; $i < count($users) ; $i++) {
-        // code...
-        if($users[$i]['id']==$id){
-          $user = $users[$i];
-          return view('mhome.delete')->with('user', $user);
-        }
-        else{
-          continue;
-        }
-      }
-
-    	//return view('home.delete')->with('user', $user);
-
-    }
-
-    function destroy($id, Request $request){
-
-    	$users = $this->getStudentList();
-    	//find student by id & delete
-            for ($i=0; $i < count($users) ; $i++) {
-              // code...
-              if($users[$i]['id']==$id){
-                unset($users[$i]);
-                //print_r($users);
-                break;
-                //return view('home.index')->with('users', $user);
-              }
-              else{
-                continue;
-              }
+    //All delivery man
+    function allDeliveryMan(Request $req){
+            $type='delivery';
+            $users = DB::table('users')
+                        ->where('usertype',$type)
+                        ->get();
+            $DMan = json_decode(json_encode($users), true);
+            if(count($DMan) > 0){
+                return view('mhome.allDeliveryMan')->with('DList', $DMan);
+            }else{
+                return redirect()->route('manager.index');
             }
-    	return view('mhome.index')->with('users', $users);
     }
 
+    //NEW ARRIVAL Foods
 
-    function getStudentList(){
-      $users = DB::table('users')->get();
-      return view('Admin.student', ['students' => $users]);
+    function newArrival(Request $req){
+
+          $food = Foods::all();
+          return view('mhome.newArrival')->with('foodList', $food);
+    }
+
+    //Edit food item
+    function editFood($id){
+      $food = Foods::where('id',$id)->first();
+      return view('mhome.editFood')->with('food', $food);
+    }
+    function updateFood($id,editProductRequest $req){
+      $food = Foods::find($id);
+      $food->price         = $req->price;
+      $food->status        = $req->status;
+      $food->ingredients   = $req->ingredients;
+          if($food->save()){
+            return redirect()->route('manager.allFood');
+      		}else{
+      			   return redirect()->route('manager.newArrival');
+             }
+
+    }
+    //Delete food
+    function deleteFood($id){
+
+      $food = Foods::where('id',$id)->first();
+       return view('mhome.deleteFood')->with('food', $food);
+
+    }
+    function destroyFood($id, Request $request){
+
+      if(Foods::destroy($id)){
+          return redirect()->route('manager.allFood');
+      }else{
+          return redirect()->route('manager.deleteFood', $id);
+      }
+    }
+    //suggest food
+    function suggestFood($id){
+      $food = Foods::where('id',$id)->first();
+       return view('mhome.suggestFood')->with('food', $food);
+    }
+    function suggested($id,Request $req){
+      $food = Foods::find($id);
+      $food->suggested         = $req->suggested;
+          if($food->save()){
+            return redirect()->route('manager.allFood');
+      		}else{
+      			   return redirect()->route('manager.suggestFood',$id);
+             }
+
+    }
+
+    //Change Status food
+    function statusFood($id){
+      $food = Foods::where('id',$id)->first();
+       return view('mhome.statusFood')->with('food', $food);
+    }
+    function status($id,Request $req){
+      $food = Foods::find($id);
+      $food->status         = $req->status;
+          if($food->save()){
+            return redirect()->route('manager.allFood');
+      		}else{
+      			   return redirect()->route('manager.statusFood',$id);
+             }
+
+    }
+
+    //Change Ingredients
+    function ingredientsFood($id){
+      $food = Foods::where('id',$id)->first();
+       return view('mhome.ingredients')->with('food', $food);
+    }
+    function ingredients($id,Request $req){
+      $food = Foods::find($id);
+      $food->ingredients         = $req->ingredients;
+          if($food->save()){
+            return redirect()->route('manager.allFood');
+      		}else{
+      			   return redirect()->route('manager.ingredients',$id);
+             }
+
+    }
+
+    //Reviews
+    function reviews($id){
+      $food = Foods::where('id',$id)->first();
+      $comment = DB::table('comments')
+                        ->join('customers', 'comments.customer_name', '=', 'customers.username')
+                        ->join('foods', function($join) use($id){
+                              $join->on('comments.food_id', '=', 'foods.id')
+                                  ->where('foods.id','=',$id);
+                            })
+                        ->get();
+                        $review = json_decode(json_encode($comment), true);
+                        return view('mHome.reviews')->with('review', $review)->with('food',$food);
+    }
+
+    //report
+    function report(Request $req){
+      //$orders = ::where('id',$id)->first();
+      $rer = DB::table('orders')
+                        ->join('foods', 'orders.id', '=', 'foods.id')
+                        ->select('orders.*','foods.name')
+                        ->get();
+                        $report = json_decode(json_encode($rer), true);
+
+                        return view('mHome.report')->with('report', $report);
+
     }
 }
