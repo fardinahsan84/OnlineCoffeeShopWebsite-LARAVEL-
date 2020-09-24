@@ -4,12 +4,13 @@
 <html>
 <head>
 	<title>All Delivery man </title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <style>
     table.center {
           margin-left: auto;
           margin-right: auto;
         }
-  			h3 {text-align: right;}
+  			h3 {text-align: left;}
 				ul {
 				list-style-type: none;
 				margin: 0;
@@ -59,35 +60,45 @@
 <form method="post">
   <input type="hidden" name="_token" value="{{csrf_token()}}">
     <center>
-      <h1>All Delivery man items</h1>
+      <h1>All Delivery man list</h1>
       <h2>Manager: {{ Session::get('username')}}</h2>
-    </center>
-     <h3><a href="{{route('manager.index')}}" class="btn btn-secondary btn-xs" >Back</a></h3>
 
-      @foreach($DList as $dman)
-       <fieldset>
-        <table class="center">
-        <legend><h4>{{$dman['name']}}</h4></legend>
-      <tr>
-        <th>ID</th><td>:{{$dman['id']}}</td><td></td>
-      </tr>
-      <tr>
-        <th>NAME</th><td>:{{$dman['name']}}</td>
-      </tr>
-      <tr>
-        <th>Phone</th><td>:{{$dman['phone']}}</td>
-      </tr
-      <tr>
-        <th>Address</th><td>:{{$dman['address']}}</td>
-      <tr>
-        <th>Email</th><td>:{{$dman['email']}}</td>
-      </tr>
-        <th>Gender</th><td>:{{$dman['gender']}}</td>
-      </tr>
+		 <input type="text" name="search" id="search" placeholder="Search Customer" />
+		 </center>
+        <table class="center" border="2" width="70%">
+
+					<tbody>
+
+					</tbody>
       </table>
-      </fieldset>
-      @endforeach
+			<h3><a href="{{route('manager.index')}}" class="btn btn-secondary btn-xs" >Back</a></h3>
     </form>
 </div>
 </body>
 </html>
+
+<script>
+$(document).ready(function(){
+
+ fetch_customer_data();
+
+ function fetch_customer_data(query = '')
+ {
+  $.ajax({
+   url:"{{ route('manager.DeliverySearch') }}",
+   method:'GET',
+   data:{query:query},
+   dataType:'json',
+   success:function(data)
+   {
+    $('tbody').html(data.table_data);
+   }
+  })
+ }
+
+ $(document).on('keyup', '#search', function(){
+  var query = $(this).val();
+  fetch_customer_data(query);
+ });
+});
+</script>

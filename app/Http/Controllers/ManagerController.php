@@ -81,21 +81,6 @@ class ManagerController extends Controller
       		}
 
     }
-
-    //All delivery man
-    function allDeliveryMan(Request $req){
-            $type='delivery';
-            $users = DB::table('users')
-                        ->where('usertype',$type)
-                        ->get();
-            $DMan = json_decode(json_encode($users), true);
-            if(count($DMan) > 0){
-                return view('mhome.allDeliveryMan')->with('DList', $DMan);
-            }else{
-                return redirect()->route('manager.index');
-            }
-    }
-
     //NEW ARRIVAL Foods
 
     function newArrival(Request $req){
@@ -208,9 +193,8 @@ class ManagerController extends Controller
 
                         return view('mHome.report')->with('report', $report);
     }
-
-    function pdfview()
-    {
+    //pdf download
+    function pdfview(){
       $repor = DB::table('orders')
                         ->join('foods', 'orders.id', '=', 'foods.id')
                         ->select('orders.*','foods.name')
@@ -220,5 +204,82 @@ class ManagerController extends Controller
             $pdf = PDF::loadView('mHome.pdf',$repor);
             return $pdf->download('pdfview.pdf');
 
+    }
+    //All delivery man
+    function allDeliveryMan(Request $req){
+
+                return view('mhome.allDeliveryMan');
+
+    }
+
+    function DeliverySearch(Request $request)
+    {
+     if($request->ajax())
+     {
+      $output = '';
+      $query = $request->get('query');
+      if($query != '')
+      {
+       $data = DB::table('customers')
+         ->where('c_id', 'like', '%'.$query.'%')
+         ->orWhere('username', 'like', '%'.$query.'%')
+         ->orWhere('address', 'like', '%'.$query.'%')
+         ->orWhere('name', 'like', '%'.$query.'%')
+         ->get();
+      }
+      else
+      {
+       $data = DB::table('customers')
+         ->get();
+      }
+      $action="Edit";
+      $total_row = $data->count();
+      if($total_row > 0)
+      {
+
+       foreach($data as $row)
+       {
+        // $output .= '
+        //  <td><a href="editFood/'.$row->c_id.'" style="color:white;">'.$action.'</a></td>
+        // ';
+        $output .= '
+        <br>
+          <fieldset>
+              <legend><h4>'.$row->name.'</h4></legend>
+              <tr>
+                <th>ID</th><td>'.$row->c_id.'</td>
+              </tr>
+              <tr>
+                <th>NAME</th><td>'.$row->name.'</td>
+              </tr>
+              <tr>
+                <th>Phone</th><td>'.$row->phone.'</td>
+              </tr
+              <tr>
+                <th>Address</th><td>'.$row->address.'</td>
+              <tr>
+                <th>Email</th><td>'.$row->email.'</td>
+              </tr>
+                <th>Gender</th><td>'.$row->gender.'</td>
+              </tr>
+        </fieldset>
+      ';
+       }
+      }
+      else
+      {
+       $output = '
+       <tr>
+        <td align="center" colspan="5">No Data Found</td>
+       </tr>
+       ';
+      }
+      $data = array(
+       'table_data'  => $output,
+       'total_data'  => $total_row
+      );
+
+      echo json_encode($data);
+     }
     }
 }
