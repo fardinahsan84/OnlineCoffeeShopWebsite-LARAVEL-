@@ -46,9 +46,9 @@
 					<li><a href="{{route('manager.editProfile',$manager['id'])}}">Edit Profile</a></li>
 					<li><a href="{{route('manager.allFood')}}">Coffee List</a></li>
 					<li><a href="{{route('manager.add')}}">Post new Item</a></li>
-					<li><a href="/manager/allDeliveryMan">Delivery man</a></li>
-					<li><a href="/manager/newArrival">New Arrival</a></li>
-					<li><a href="/manager/newArrival">Reviews</a></li>
+					<li><a href="{{route('manager.allDeliveryMan')}}">Delivery man</a></li>
+					<li><a href="{{route('manager.newArrival')}}">New Arrival</a></li>
+					<li><a href="{{route('manager.allFood')}}">Reviews</a></li>
 					<li><a href="{{route('manager.report')}}">Balance sheet</a></li>
 					<li><a href="{{route('logout.index')}}">Logout</a><li>
 				</ul>

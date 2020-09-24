@@ -44,7 +44,7 @@
       					<li><a href="{{route('manager.allDeliveryMan')}}">Delivery man</a></li>
       					<li><a href="{{route('manager.newArrival')}}">New Arrival</a></li>
       					<li><a href="{{route('manager.allFood')}}">Reviews</a></li>
-      					<li><a href="/manager/newArrival">Balance sheet</a></li>
+      					<li><a href="{{route('manager.report')}}">Balance sheet</a></li>
       					<li><a href="{{route('logout.index')}}">Logout</a><li>
       				</ul>
   <div class="p-3 mb-2 bg-primary text-white">
@@ -97,5 +97,6 @@
                     <td><a href="{{route('manager.allFood')}}"  class="btn btn-secondary" >Back</a></td>
                   </tr>
               </table>
+						</form>
     </body>
   </html>

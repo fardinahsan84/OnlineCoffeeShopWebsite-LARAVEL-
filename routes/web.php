@@ -57,5 +57,7 @@ Route::middleware(['ses'])->group(function(){
 
           Route::get('/manager/balanceSheet', 'ManagerController@report')->name('manager.report');
 
+          Route::get('/manager/pdfview','ManagerController@pdfview')->name('manager.pdfview');
+
     });
 });

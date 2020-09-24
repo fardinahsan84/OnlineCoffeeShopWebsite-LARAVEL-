@@ -11,6 +11,7 @@ use App\Http\Requests\editProductRequest;
 use App\User;
 use App\Foods;
 use Validator;
+use PDF;
 
 class ManagerController extends Controller
 {
@@ -200,13 +201,24 @@ class ManagerController extends Controller
     //report
     function report(Request $req){
       //$orders = ::where('id',$id)->first();
-      $rer = DB::table('orders')
+      $report = DB::table('orders')
                         ->join('foods', 'orders.id', '=', 'foods.id')
                         ->select('orders.*','foods.name')
                         ->get();
-                        $report = json_decode(json_encode($rer), true);
 
                         return view('mHome.report')->with('report', $report);
+    }
+
+    function pdfview()
+    {
+      $repor = DB::table('orders')
+                        ->join('foods', 'orders.id', '=', 'foods.id')
+                        ->select('orders.*','foods.name')
+                        ->get();
+                        view()->share('report',$repor);
+
+            $pdf = PDF::loadView('mHome.pdf',$repor);
+            return $pdf->download('pdfview.pdf');
 
     }
 }
