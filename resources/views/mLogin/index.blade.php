@@ -63,7 +63,8 @@
       </tr>
 			<tr>
 				<td></td>
-				<td><input type="submit" class="btn btn-primary" name="submit" value="Submit"></td>
+				<td><input type="submit" class="btn btn-primary" name="submit" value="Submit">||
+            <a href="/fbLogin" class="btn btn-primary">Facebook</a></td>
 			</tr>
 		</table>
 	</form>

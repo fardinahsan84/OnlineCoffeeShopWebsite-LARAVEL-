@@ -20,6 +20,9 @@ Route::get('/', function () {
 Route::get('/login', 'LoginController@index');
 Route::post('/login','LoginController@verify');
 
+Route::get('/fbLogin', 'LoginController@fbLogin')->name('login.fbLogin');
+Route::get('/fbRes', 'LoginController@fbRes')->name('login.fbRes');
+
 Route::get('/logout', 'LogoutController@index')->name('logout.index');
 
 Route::middleware(['ses'])->group(function(){

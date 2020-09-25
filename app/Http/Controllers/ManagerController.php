@@ -25,7 +25,7 @@ class ManagerController extends Controller
 
     //All Coffee List
     function allFood(Request $req){
-        return view('mhome.allFood') ;
+        return view('mhome.allFood');
     }
     //search Foods
     function FoodSearch(Request $request){
