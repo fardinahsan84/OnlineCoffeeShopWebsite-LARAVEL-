@@ -52,6 +52,8 @@ Route::middleware(['ses'])->group(function(){
 
           Route::get('/manager/allDeliveryMan', 'ManagerController@allDeliveryMan')->name('manager.allDeliveryMan');
           Route::get('/manager/allDeliveryMan/search', 'ManagerController@DeliverySearch')->name('manager.DeliverySearch');
+          Route::get('/manager/allDeliveryMan/pdfview','ManagerController@DeliveryPdfview')->name('manager.deliveryPdfview');
+
 
           Route::get('/manager/newArrival', 'ManagerController@newArrival')->name('manager.newArrival');
 

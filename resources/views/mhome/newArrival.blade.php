@@ -65,11 +65,12 @@
               <tr>
     		@for($i=count($foodList)-1; $i >= 8; $i--)
           <td>
-      				 <fieldset>
+      				 <fieldset >
       					<table class="center">
       					<legend><p>{{$foodList[$i]['name']}}</p></legend>
       				<tr>
-          			<th>NAME</th><td>:{{$foodList[$i]['name']}}</td><td><a href="{{route('logout.index',$foodList[$i]['id'])}}">Reviews</a></td>
+          			<th>NAME</th><td>:{{$foodList[$i]['name']}}</td>
+								<td><h3><a href="/manager/reviews/{{$foodList[$i]['id']}}" class="btn btn-secondary">Reviews</a></h3></td>
       				</tr>
       				<tr>
                 <th>Price/item</th><td>:{{$foodList[$i]['price']}}</td><br>
@@ -86,6 +87,11 @@
     		@endfor
       </tr>
   </table>
-
+	<table>
+		<br><br>
+			<tr>
+				<td><a href="{{route('manager.allFood')}}"  class="btn btn-secondary" >Back</a></td>
+			</tr>
+	</table>
 </body>
 </html>

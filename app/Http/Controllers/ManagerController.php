@@ -348,4 +348,13 @@ class ManagerController extends Controller
       echo json_encode($data);
      }
     }
+    function DeliveryPdfview(){
+      $repor = DB::table('customers')->get();
+
+                        view()->share('dlist',$repor);
+
+            $pdf = PDF::loadView('mHome.deliveryPdf',$repor);
+            return $pdf->download('AllDeliveryMan.pdf');
+
+    }
 }

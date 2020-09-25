@@ -10,7 +10,7 @@
           margin-left: auto;
           margin-right: auto;
         }
-  			h3 {text-align: left;}
+  			h3 {text-align: right;}
 				ul {
 				list-style-type: none;
 				margin: 0;
@@ -42,7 +42,6 @@
           padding: 5px 10px;
         }
 				</style>
-
 				</head>
 				<body>
 				<ul>
@@ -62,7 +61,7 @@
     <center>
       <h1>All Delivery man list</h1>
       <h2>Manager: {{ Session::get('username')}}</h2>
-
+			<h3><a href="{{ route('manager.deliveryPdfview') }}" class="btn btn-success">Download</a></h3>
 		 <input type="text" name="search" id="search" placeholder="Search Customer" />
 		 </center>
         <table class="center" border="2" width="70%">
