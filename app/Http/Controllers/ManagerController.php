@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\AddProductRequest;
 use App\Http\Requests\editProductRequest;
-
+use App\Http\Requests\editProfileRequest;
 
 use App\User;
 use App\Foods;
@@ -25,21 +25,87 @@ class ManagerController extends Controller
 
     //All Coffee List
     function allFood(Request $req){
-
-      $username = $req->session()->get('username');
-      $food = Foods::all();
-      //$user = User::all();
-      //$users = $this->getStudentList();
-      //$user = DB::table('users')->find();
-        return view('mhome.allFood')->with('foodList', $food);
+        return view('mhome.allFood') ;
     }
+    //search Foods
+    function FoodSearch(Request $request){
+         if($request->ajax())
+         {
+          $output = '';
+          $query = $request->get('query');
+          if($query != '')
+          {
+           $data = DB::table('foods')
+             ->where('id', 'like', '%'.$query.'%')
+             ->orWhere('name', 'like', '%'.$query.'%')
+             ->orWhere('status', 'like', '%'.$query.'%')
+             ->get();
+          }
+          else
+          {
+           $data = DB::table('foods')
+             ->get();
+          }
+          $action="Edit";
+          $total_row = $data->count();
+          if($total_row > 0)
+          {
+
+           foreach($data as $row)
+           {
+            // $output .= '
+            //  <td><a href="editFood/'.$row->c_id.'" style="color:white;">'.$action.'</a></td>
+            // ';
+            $output .= '
+            <fieldset >
+                  <legend class="rounded-top"><h4>'.$row->name.'</h4></legend>
+                  <tr>
+                    <th>ID</th><td>'.$row->id.'</td>
+                  </tr>
+                  <tr>
+                    <th>NAME</th><td>'.$row->name.'</td><td><a href="/manager/editFood/'.$row->id.'" class="btn btn-secondary btn-xs"> Edit </a></td>
+                  </tr>
+                  <tr>
+                    <th>Price/item</th><td>'.$row->price.'</td><td><a href="/manager/deleteFood/'.$row->id.'" class="btn btn-secondary btn-xs">Delete</a></td>
+                  </tr
+                  <tr>
+                    <th>Suggested</th><td>'.$row->suggested.'</td><td><a href="/manager/suggestFood/'.$row->id.'" class="btn btn-secondary btn-xs">Suggest</a></td>
+                  <tr>
+                    <th>Ingredients</th><td>'.$row->ingredients.'</td><td><a href="/manager/ingredients/'.$row->id.'" class="btn btn-secondary btn-xs">Edit Ingredients</a></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td><h3><a href="/manager/reviews/'.$row->id.'" class="btn btn-secondary">Reviews</a></h3></td>
+                </tr>
+                </fieldset>
+          ';
+           }
+          }
+          else
+          {
+           $output = '
+           <tr>
+            <td align="center" colspan="5">No Data Found</td>
+           </tr>
+           ';
+          }
+          $data = array(
+           'table_data'  => $output,
+           'total_data'  => $total_row
+          );
+
+          echo json_encode($data);
+         }
+    }
+
 
     //Edit Manager Profile
     function editProfile($id){
         $user = User::where('id',$id)->first();
         return view('manager.edit')->with('manager', $user);
     }
-    function updateProfile($id, Request $req){
+    function updateProfile($id, editProfileRequest $req){
 
       if($req->hasFile('uploaded_image')){
           $file = $req->file('uploaded_image');
@@ -158,9 +224,11 @@ class ManagerController extends Controller
       $food = Foods::where('id',$id)->first();
        return view('mhome.ingredients')->with('food', $food);
     }
-    function ingredients($id,Request $req){
+    function ingredients($id,Request $request){
+
+
       $food = Foods::find($id);
-      $food->ingredients         = $req->ingredients;
+      $food->ingredients         = $request->ingredients;
           if($food->save()){
             return redirect()->route('manager.allFood');
       		}else{
@@ -211,9 +279,7 @@ class ManagerController extends Controller
                 return view('mhome.allDeliveryMan');
 
     }
-
-    function DeliverySearch(Request $request)
-    {
+    function DeliverySearch(Request $request){
      if($request->ajax())
      {
       $output = '';

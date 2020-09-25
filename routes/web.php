@@ -33,6 +33,7 @@ Route::middleware(['ses'])->group(function(){
           Route::post('/manager/add', 'ManagerController@insert');
 
           Route::get('/manager/allFood', 'ManagerController@allFood')->name('manager.allFood');
+          Route::get('/manager/allFood/search', 'ManagerController@FoodSearch')->name('manager.FoodSearch');
 
           Route::get('/manager/editFood/{id}', 'ManagerController@editFood')->name('manager.editFood');
           Route::post('/manager/editFood/{id}', 'ManagerController@updateFood');

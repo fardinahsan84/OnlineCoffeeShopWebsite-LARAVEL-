@@ -34,6 +34,11 @@
 				li a:hover {
 				background-color: #111;
 				}
+				legend {
+          background-color: gray;
+          color: white;
+          padding: 5px 10px;
+        }
 				</style>
 				</head>
 				<body>
@@ -60,13 +65,13 @@
             <tr><td>
 
             <fieldset>
-             <table class="center">
+             <table class="center" border="1">
              <legend><h4>{{$food['name']}}</h4></legend>
             <tr>
-             <th>ID</th><td>:{{$food['id']}}</td><td></td>
+             <th>ID</th><td>:{{$food['id']}}</td>
             </tr>
             <tr>
-             <th>NAME</th><td>:{{$food['name']}}</td><td></td>
+             <th>NAME</th><td>:{{$food['name']}}</td>
             </tr>
             <tr>
              <th>Price/item</th><td>:{{$food['price']}}</td>
@@ -98,5 +103,6 @@
                   </tr>
               </table>
 						</form>
+					</div>
     </body>
   </html>

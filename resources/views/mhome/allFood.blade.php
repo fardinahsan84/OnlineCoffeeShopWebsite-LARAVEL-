@@ -4,6 +4,8 @@
 <html>
 <head>
 	<title>Manager home page</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
   <style>
     table.center {
           margin-left: auto;
@@ -63,36 +65,41 @@
       <h2>Manager: {{ Session::get('username')}}</h2>
     </center>
      <h3><a href="{{route('manager.index')}} class="btn btn-secondary btn-xs"">Back</a></h3>
+		  <input type="text" name="search" id="search" placeholder="Search coffee" />
 
-      @foreach($foodList as $food)
-       <fieldset>
         <table class="center">
-        <legend><h4>{{$food['name']}}</h4></legend>
-      <tr>
-        <th>ID</th><td>:{{$food['id']}}</td><td></td>
-      </tr>
-      <tr>
-        <th>NAME</th><td>:{{$food['name']}}</td><td><a href="/manager/editFood/{{$food['id']}}" class="btn btn-secondary btn-xs"> Edit </a></td>
-      </tr>
-      <tr>
-        <th>Price/item</th><td>:{{$food['price']}}</td><td><a href="/manager/deleteFood/{{$food['id']}}" class="btn btn-secondary btn-xs">Delete</a></td>
-      </tr
-      <tr>
-        <th>Suggested</th><td>:{{$food['suggested']}}</td><td><a href="/manager/suggestFood/{{$food['id']}}" class="btn btn-secondary btn-xs">Suggest</a></td>
-      <tr>
-        <th>Status</th><td>:{{$food['status']}}</td><td><a href="/manager/statusFood/{{$food['id']}}" class="btn btn-secondary btn-xs">Change Status</a></td>
-      </tr>
-        <th>Ingredients</th><td>:{{$food['ingredients']}}</td><td><a href="/manager/ingredients/{{$food['id']}}" class="btn btn-secondary btn-xs">Edit Ingredients</a></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td><h3><a href="/manager/reviews/{{$food['id']}}" class="btn btn-secondary">Reviews</a></h3></td>
-    </tr>
+      <tbody>
+
+      </tbody>
       </table>
-      </fieldset>
-      @endforeach
+
     </form>
 </div>
 </body>
 </html>
+
+<script>
+$(document).ready(function(){
+
+ fetch_customer_data();
+
+ function fetch_customer_data(query = '')
+ {
+  $.ajax({
+   url:"{{ route('manager.FoodSearch') }}",
+   method:'GET',
+   data:{query:query},
+   dataType:'json',
+   success:function(data)
+   {
+    $('tbody').html(data.table_data);
+   }
+  })
+ }
+
+ $(document).on('keyup', '#search', function(){
+  var query = $(this).val();
+  fetch_customer_data(query);
+ });
+});
+</script>

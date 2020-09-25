@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Http\Requests\loginRequest;
 use App\User;
 
 class LoginController extends Controller
@@ -12,7 +13,7 @@ class LoginController extends Controller
     	return view('mlogin.index');
     }
 
-    function verify(Request $request){
+    function verify(loginRequest $request){
       $user= new User;
       $data = $user->where('username',$request->username)
                   ->where('password',$request->password)

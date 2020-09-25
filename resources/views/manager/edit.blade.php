@@ -74,23 +74,27 @@
           </tr>
           <tr>
             <td>Password</td>
-            <td><input type="password" value="{{$manager['password']}}" required="required" name="password"  id="password"></td>
+            <td><input type="password" value="{{$manager['password']}}" name="password"  id="password">
+										<span style="color:red;">{{$errors->first('password')}}</span></td>
           </tr>
           <tr>
             <td>Email</td>
-            <td><input type="text" value="{{$manager['email']}}" required="required" name="email"  id="email"></td>
+            <td><input type="text" value="{{$manager['email']}}"  name="email"  id="email">
+										<span style="color:red;">{{$errors->first('email')}}</span></td>
           </tr>
           <tr>
             <td>Phone no</td>
-            <td><input type="text" value="{{$manager['phone']}}" required="required" name="phone"  id="phone"></td>
+            <td><input type="text" value="{{$manager['phone']}}"  name="phone"  id="phone">
+										<span style="color:red;">{{$errors->first('phone')}}</span></td>
           </tr>
           <tr>
             <td>Address</td>
-            <td><input type="text" value="{{$manager['address']}}" required="required" name="address"  id="address"></td>
+            <td><input type="text" value="{{$manager['address']}}"  name="address"  id="address">
+											<span style="color:red;">{{$errors->first('address')}}</span></td>
           </tr>
           <tr>
             <td>Upload an image</td>
-            <td><input type="file" value="{{$manager['image']}}" name="uploaded_image"  required="required" ></td>
+            <td><input type="file" value="{{$manager['image']}}" name="uploaded_image" ></td>
           </tr>
           <tr><br>
           <td><br></td>

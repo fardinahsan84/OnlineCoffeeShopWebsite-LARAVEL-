@@ -43,21 +43,20 @@
   <br>
   <br>
 	<h1>Login</h1>
-
 	<form method="post">
 		<input type="hidden" name="_token" value="{{csrf_token()}}">
 
 		<table>
 			<tr>
-				<td>Username</td>
-				<td><input type="text" name="username"></td>
+				<td style="color:white;">Username</td>
+				<td><input type="text" name="username"><span style="color:red;">{{$errors->first('username')}}</span></td>
 			</tr>
       <tr>
         <td><br></td>
       </tr>
 			<tr>
-				<td>Password</td>
-				<td><input type="password" name="password"></td>
+				<td style="color:white;">Password</td>
+				<td><input type="password" name="password"><span style="color:red;">{{$errors->first('password')}}</span></td>
 			</tr>
       <tr>
         <td><br></td>
